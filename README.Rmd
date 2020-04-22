@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/miraisolutions/ShinyCICD.svg?branch=master)](https://travis-ci.com/miraisolutions/ShinyCICD)
+[![R build status](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
 <!-- badges: end -->
 
 The goal of ShinyCICD is to provide an example of a packaged Shiny app, to illustrate CI/CD pipelines on ope source tools like Travis CI and GitHub Actions.
