@@ -1,7 +1,11 @@
 Package: ShinyCICD
 Title: ShinyCICD
 Version: 0.0.0.9000
-Authors@R: person('Francesca', 'Vitalini', email = 'francesca.vitalini@mirai-solutions.com', role = c('cre', 'aut'))
+Authors@R: 
+    c(person("Francesca", "Vitalini", role = c("cre", "aut"),
+             email = 'francesca.vitalini@mirai-solutions.com'),
+      person("Mirai Solutions GmbH", role = "cph",
+             email = "info@mirai-solutions.com"))
 Description: Example of a packaged Shiny app to illustrate CI/CD pipelines.
 License: LGPL (>= 2.1)
 Imports: 

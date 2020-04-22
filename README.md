@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/miraisolutions/ShinyCICD.svg?branch=master)](https://travis-ci.com/miraisolutions/ShinyCICD)
 <!-- badges: end -->
 
 The goal of ShinyCICD is to provide an example of a packaged Shiny app,
