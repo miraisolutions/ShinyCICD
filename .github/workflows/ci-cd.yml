@@ -38,24 +38,24 @@ jobs:
             libxml2-dev libcurl4-openssl-dev
 
 # Install rsconnect necessary for deployment
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran(c("rcmdcheck", "rsconnect"))
-        shell: Rscript {0}
+#      - name: Install dependencies
+#        run: |
+#          remotes::install_deps(dependencies = TRUE)
+#          remotes::install_cran(c("rcmdcheck", "rsconnect"))
+#        shell: Rscript {0}
 
-      - name: Check package
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
+#      - name: Check package
+#        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
+#        shell: Rscript {0}
 
-      - name: Deploy to shinyapps.io
-        if: github.ref == 'refs/heads/master'
-        env:
-          SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
-          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
-          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-        run: |
-          account_info <- lapply(paste0("SHINYAPPS_", c("ACCOUNT", "TOKEN", "SECRET")), Sys.getenv)
-          do.call(rsconnect::setAccountInfo, account_info)
-          rsconnect::deployApp(appName = "ShinyCICD")
-        shell: Rscript {0}
+#      - name: Deploy to shinyapps.io
+#        if: github.ref == 'refs/heads/master'
+#        env:
+#          SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
+#          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
+#          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+#        run: |
+#          account_info <- lapply(paste0("SHINYAPPS_", c("ACCOUNT", "TOKEN", "SECRET")), Sys.getenv)
+#          do.call(rsconnect::setAccountInfo, account_info)
+#          rsconnect::deployApp(appName = "ShinyCICD")
+#        shell: Rscript {0}
