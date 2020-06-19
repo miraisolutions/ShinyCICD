@@ -5,11 +5,6 @@ cache: packages
 
 deploy:
   provider: script
-  script:
-  - >-
-    Rscript
-    -e 'account_info <- lapply(paste0("SHINYAPPS_", c("ACCOUNT", "TOKEN", "SECRET")), Sys.getenv)'
-    -e 'do.call(rsconnect::setAccountInfo, account_info)'
-    -e 'rsconnect::deployApp(appName = "ShinyCICD")'
+  script: Rscript deploy/deploy_shinyapps.R
   on:
     branch: master
