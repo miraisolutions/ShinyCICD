@@ -1,30 +1,33 @@
-# Check on push and pull requests to master
+# Triggered on push and pull request events
 on: [push, pull_request]
 
-# Name of the workflow
+# Name of the workflow => usethis::use_github_actions_badge("CI-CD")
 name: CI-CD
 
 jobs:
   CI-CD:
     runs-on: ubuntu-latest
+
     steps:
 
       - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-r@master
 
-# Query and cache R package dependencies
       - name: Query dependencies
-        run: |
-          install.packages("remotes")
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), "depends.Rds", version = 2)
         shell: Rscript {0}
-      - name: Cache R packages
-        uses: actions/cache@v1
+        run: |
+          install.packages('remotes')
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+
+      - name: Cache packages
+        uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ hashFiles('depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-
 
       - name: Install system dependencies
         env:
@@ -33,29 +36,21 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-          # rsconnect dependencies
-          sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-            libxml2-dev libcurl4-openssl-dev
 
-# Install rsconnect necessary for deployment
-#      - name: Install dependencies
-#        run: |
-#          remotes::install_deps(dependencies = TRUE)
-#          remotes::install_cran(c("rcmdcheck", "rsconnect"))
-#        shell: Rscript {0}
+      - name: Install dependencies
+        shell: Rscript {0}
+        run: remotes::install_deps(dependencies = TRUE)
 
-#      - name: Check package
-#        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning", check_dir = "check")
-#        shell: Rscript {0}
+      - name: Check package
+        shell: Rscript {0}
+        run: |
+          install.packages("rcmdcheck")
+          rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
 
-#      - name: Deploy to shinyapps.io
-#        if: github.ref == 'refs/heads/master'
-#        env:
-#          SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
-#          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
-#          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
-#        run: |
-#          account_info <- lapply(paste0("SHINYAPPS_", c("ACCOUNT", "TOKEN", "SECRET")), Sys.getenv)
-#          do.call(rsconnect::setAccountInfo, account_info)
-#          rsconnect::deployApp(appName = "ShinyCICD")
-#        shell: Rscript {0}
+      - name: Deploy to shinyapps.io
+        if: github.ref == 'refs/heads/final'
+        env:
+          SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
+          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
+          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+        run: Rscript deploy/deploy_shinyapps.R

@@ -9,3 +9,4 @@ $run_dev.*
 ^\.travis\.yml$
 ^app\.R$
 ^rsconnect$
+^\.github$
