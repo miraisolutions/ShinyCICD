@@ -6,6 +6,6 @@ cache: packages
 deploy:
   provider: script
   script: ls -la
-  # Rscript deploy/deploy_shinyapps.R
+  # Rscript deploy/deploy-shinyapps.R
   on:
     branch: master
