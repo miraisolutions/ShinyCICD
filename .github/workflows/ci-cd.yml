@@ -17,6 +17,7 @@ jobs:
         config:
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
+    # we need to define a package manager for RStudio and expose the Github PAT for access
     env:
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -60,6 +61,7 @@ jobs:
 
       - name: Check package
         run: |
+          # enabling this option makes the R CMD check output colorful
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
