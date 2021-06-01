@@ -17,10 +17,10 @@ jobs:
         config:
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
-    # we define a package manager for RStudio which speeds up the package installation
-    # and expose the Github PAT which is required for access
     env:
+      # Enable RStudio Package Manager to speed up package installation
       RSPM: ${{ matrix.config.rspm }}
+      # Access token for GitHub
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
