@@ -6,7 +6,6 @@ dev_history.R
 $run_dev.*
 ^LICENSE\.md$
 ^README\.Rmd$
-^\.travis\.yml$
 ^app\.R$
 ^rsconnect$
 ^\.github$
