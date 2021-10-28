@@ -4,8 +4,10 @@
 # ShinyCICD
 
 <!-- badges: start -->
+
 [![R build
 status](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
+[![CI-CD-renv](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD-renv/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
 <!-- badges: end -->
 
 The goal of ShinyCICD is to provide an example of a packaged Shiny app,
