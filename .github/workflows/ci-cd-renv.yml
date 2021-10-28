@@ -1,0 +1,81 @@
+# Triggered on push and pull request events
+on: [push, pull_request]
+
+# Name of the workflow => usethis::use_github_actions_badge("CI-CD-renv")
+name: CI-CD-renv
+
+# renv with GitHub actions: https://rstudio.github.io/renv/articles/ci.html#github-actions
+
+jobs:
+  CI-CD:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      # we keep a matrix for convenience, but we would typically just run on one
+      # single OS and R version, aligned with the target deployment environment
+      matrix:
+        config:
+          - {os: ubuntu-20.04, r: 'release'}
+
+    env:
+      # Root path used by renv and cached
+      RENV_PATHS_ROOT: ~/.local/share/renv
+      # Access token for GitHub
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: ${{ matrix.config.r }}
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.RENV_PATHS_ROOT }}
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+
+      - name: Activate renv
+        # We need this only since renv is deactivated in the repo to accommodate
+        # the coexisting non-renv CI-CD workflow
+        run: |
+          install.packages("renv")
+          renv::activate()
+        shell: Rscript {0}
+
+      - name: Install system dependencies
+        run: |
+          Rscript -e "install.packages('remotes')"
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+
+      - name: Restore packages
+        run: |
+          renv::restore()
+        shell: Rscript {0}
+
+      - name: Check package
+        run: |
+          install.packages("rcmdcheck")
+          options(crayon.enabled = TRUE) # enable colorful R CMD check output
+          rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
+        shell: Rscript {0}
+
+      - name: Deploy to shinyapps.io
+        # continuous deployment only for pushes to the main / master branch
+        if: false && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        env:
+          SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
+          SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
+          SHINYAPPS_SECRET: ${{ secrets.SHINYAPPS_SECRET }}
+        run: Rscript deploy/deploy-shinyapps.R
