@@ -51,7 +51,8 @@ jobs:
 
       - name: Deploy to shinyapps.io
         # Continuous deployment only for pushes to the main / master branch
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        # if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/feature/4-simplify-workflows-r-lib-actions'
         env:
           SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
           SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
