@@ -1,12 +1,8 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # ShinyCICD
 
 <!-- badges: start -->
-
-[![R build
-status](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
+[![CI-CD](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
 [![CI-CD-renv](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD-renv/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
 <!-- badges: end -->
 
