@@ -2,8 +2,8 @@
 # ShinyCICD
 
 <!-- badges: start -->
-[![CI-CD](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
-[![CI-CD-renv](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD-renv/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions)
+[![CI-CD](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions/workflows/ci-cd.yml)
+[![CI-CD-renv](https://github.com/miraisolutions/ShinyCICD/workflows/CI-CD-renv/badge.svg)](https://github.com/miraisolutions/ShinyCICD/actions/workflows/ci-cd-renv.yml)
 <!-- badges: end -->
 
 The goal of ShinyCICD is to provide an example of a packaged Shiny app,
