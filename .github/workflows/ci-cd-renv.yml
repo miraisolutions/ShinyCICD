@@ -49,7 +49,7 @@ jobs:
           done < <(Rscript -e 'writeLines(with(distro::distro(), remotes::system_requirements(id, short_version)))')
 
       - name: Activate renv and restore packages with cache
-        uses: r-lib/actions/setup-renv@v1
+        uses: r-lib/actions/setup-renv@master
 
       - name: Check package
         run: |
