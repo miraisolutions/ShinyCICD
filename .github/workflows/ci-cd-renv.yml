@@ -4,8 +4,8 @@
 # Triggered on push and pull request events
 on: [push, pull_request]
 
-# Name of the workflow => usethis::use_github_actions_badge("CI-CD")
-name: CI-CD
+# Name of the workflow => usethis::use_github_actions_badge("CI-CD-renv")
+name: CI-CD-renv
 
 jobs:
   CI-CD:
@@ -38,20 +38,29 @@ jobs:
           # Enable RStudio Package Manager to speed up package installation
           use-public-rspm: true
 
-      - name: Install and cache dependencies
-        uses: r-lib/actions/setup-r-dependencies@v1
-        with:
-          extra-packages: rcmdcheck
+      - name: Install system dependencies
+        # This is not taken care of (yet) by r-lib/actions/setup-renv
+        # Package distro used to get the distro for the used ubuntu-latest
+        run: |
+          Rscript -e "install.packages(c('remotes', 'distro'))"
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'writeLines(with(distro::distro(), remotes::system_requirements(id, short_version)))')
+
+      - name: Activate renv and restore packages with cache
+        uses: r-lib/actions/setup-renv@master
 
       - name: Check package
         run: |
+          install.packages("rcmdcheck")
           options(crayon.enabled = TRUE) # enable colorful R CMD check output
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "warning")
         shell: Rscript {0}
 
       - name: Deploy to shinyapps.io
         # Continuous deployment only for pushes to the main / master branch
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: false && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         env:
           SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
           SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
