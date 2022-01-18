@@ -2,7 +2,7 @@ Package: ShinyCICD
 Title: ShinyCICD
 Version: 0.0.0.9000
 Authors@R: 
-    c(person("Peter", "Schmid", role = c("cbt", "cre"),
+    c(person("Peter", "Schmid", role = c("aut", "cre"),
              email = "peter.schmid@mirai-solutions.com"),
       person("Riccardo", "Porreca", role = "aut",
              email = "riccardo.porreca@mirai-solutions.com"),
