@@ -51,6 +51,10 @@ jobs:
       - name: Activate renv and restore packages with cache
         uses: r-lib/actions/setup-renv@v2
 
+      - name: Install R CMD check
+        run: install.packages("rcmdcheck")
+        shell: Rscript {0}
+
       - name: Check package
         uses: r-lib/actions/check-r-package@v2
 
