@@ -4,15 +4,14 @@
 # Name of the workflow => usethis::use_github_actions_badge("CI-CD-renv")
 name: CI-CD-renv
 
-# Triggered on push and pull request events
-# workflow_dispatch allows you to run this workflow manually from the Actions tab
 on:
+  # Triggered on push and pull request events
   push:
   pull_request:
+  # Allow manual runs from the Actions tab
   workflow_dispatch:
-  # ...on a regular schedule for checking existing links turning broken; this is
-  # set to run each 1st of the month to make sure Actions caches are
-  # preserved (they expire every 7 days) and available for future runs
+  # Monthly runs on the 1st day of the month at midnight
+  # (specific for ShinyCICD maintenance)
   schedule:
     - cron:  '0 0 1 * *'
 
