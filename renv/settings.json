@@ -1,6 +1,6 @@
 {
   "bioconductor.version": null,
-  "external.libraries": ["rsconnect"],
+  "external.libraries": [],
   "ignored.packages": [],
   "package.dependency.fields": [
     "Imports",
