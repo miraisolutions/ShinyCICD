@@ -1,11 +1,14 @@
 {
   "bioconductor.version": "3.17",
-  "external.libraries": [],
+  "external.libraries": [
+    "rsconnect"
+  ],
   "ignored.packages": [],
   "package.dependency.fields": [
     "Imports",
     "Depends",
-    "LinkingTo"
+    "LinkingTo",
+    "Suggests"
   ],
   "ppm.enabled": null,
   "ppm.ignored.urls": [],

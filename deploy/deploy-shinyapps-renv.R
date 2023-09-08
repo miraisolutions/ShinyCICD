@@ -6,4 +6,5 @@ rsconnect::setAccountInfo(
   Sys.getenv("SHINYAPPS_SECRET")
 )
 
+options(repos=c(CRAN="https://cran.rstudio.com"))
 rsconnect::deployApp(appName = "ShinyCICD-test-renv", forceUpdate = TRUE)
