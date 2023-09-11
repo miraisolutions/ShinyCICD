@@ -14,6 +14,7 @@ Imports:
     config,
     golem,
     graphics,
+    rsconnect,
     shiny
 Encoding: UTF-8
 LazyData: true
@@ -22,5 +23,4 @@ URL: https://github.com/miraisolutions/ShinyCICD
 BugReports: https://github.com/miraisolutions/ShinyCICD/issues
 Suggests: 
     testthat,
-    pkgload,
-    rsconnect
+    pkgload
