@@ -598,25 +598,21 @@
     },
     "rsconnect": {
       "Package": "rsconnect",
-      "Version": "1.0.0",
+      "Version": "0.8.29",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
-        "cli",
         "curl",
         "digest",
         "jsonlite",
-        "lifecycle",
         "openssl",
         "packrat",
-        "renv",
-        "rlang",
         "rstudioapi",
         "tools",
         "yaml"
       ],
-      "Hash": "f334565fbf2db469bfb800aa178254d1"
+      "Hash": "fe178fc15af80952f546aafedf655b36"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
