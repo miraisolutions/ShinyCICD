@@ -7,5 +7,5 @@ rsconnect::setAccountInfo(
 )
 
 # options(repos=c(CRAN="https://cran.rstudio.com"))
-#options(rsconnect.packrat = FALSE)
+options(rsconnect.packrat = FALSE)
 rsconnect::deployApp(appName = "ShinyCICD-test-renv", forceUpdate = TRUE, logLevel = "verbose")
