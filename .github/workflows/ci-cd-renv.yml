@@ -60,7 +60,7 @@ jobs:
         uses: r-lib/actions/setup-renv@v2
 
       - name: Install R CMD check
-        run: install.packages("rcmdcheck")
+        run: install.packages(c("rcmdcheck", "testthat", "rsconnect"))
         shell: Rscript {0}
 
       - name: Check package
