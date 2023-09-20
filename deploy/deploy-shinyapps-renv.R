@@ -8,4 +8,6 @@ rsconnect::setAccountInfo(
 
 options(rsconnect.packrat = FALSE)
 
+renv::settings$snapshot.type("explicit")
+
 rsconnect::deployApp(appName = "ShinyCICD-renv-test", forceUpdate = TRUE)
