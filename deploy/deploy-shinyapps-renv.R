@@ -8,7 +8,4 @@ rsconnect::setAccountInfo(
 
 options(rsconnect.packrat = FALSE)
 
-# remotes::install.packages("rsconnect")
-
-
-rsconnect::deployApp(appName = "ShinyCICD-renv-test", forceUpdate = TRUE)
+rsconnect::deployApp(appName = "ShinyCICD-renv", forceUpdate = TRUE)

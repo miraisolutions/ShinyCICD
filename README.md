@@ -27,7 +27,7 @@ remotes::install_github("miraisolutions/ShinyCICD")
 
 ## Deployment
 
-The Shiny app with Old Faithful Geyser example is deployed on `shinyapps.io` on the Mirai Solutions account.
+The Shiny app with Old Faithful Geyser example is deployed to `shinyapps.io` on the Mirai Solutions account.
 
 [Deployed App with the renv project](https://miraisolutions.shinyapps.io/ShinyCICD-renv/)
 
