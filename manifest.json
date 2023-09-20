@@ -1082,10 +1082,10 @@
       "checksum": "5db23024cc33945dc7bea5f159422cda"
     },
     ".github/workflows/ci-cd-renv.yml": {
-      "checksum": "3dcd2c9403f77f30bab5b8d4a67f38d5"
+      "checksum": "0fb97b1096992922b1eaf6fa197bff89"
     },
     ".github/workflows/ci-cd.yml": {
-      "checksum": "4a20331a7eaefdb44863972ca538cc17"
+      "checksum": "85dabb35665dd429c18bc650bebe45ef"
     },
     ".Rbuildignore": {
       "checksum": "0b19c8faecff85d052b7c3d06065bc8e"
@@ -1094,7 +1094,7 @@
       "checksum": "5ba46f942b658d895d184851efe70855"
     },
     ".Rprofile": {
-      "checksum": "ea2ce694240f700e1f00ed9d300c264f"
+      "checksum": "04f926bb9c9709c37b148a6a4e2059fa"
     },
     ".rsignore": {
       "checksum": "d41d8cd98f00b204e9800998ecf8427e"
@@ -1103,10 +1103,10 @@
       "checksum": "9f6cd09990f798886cccefa8c73036b3"
     },
     "deploy/deploy-shinyapps-renv.R": {
-      "checksum": "5bb2d910ba8595c45e6aa8d955818ec2"
+      "checksum": "60ebd77225140bc22fbc027e73d949be"
     },
     "deploy/deploy-shinyapps.R": {
-      "checksum": "1c23ef20400ba53ae006a9a81472d795"
+      "checksum": "35f4309207c25fb0f99b2cc91f49866c"
     },
     "DESCRIPTION": {
       "checksum": "2778fdcd9d8479b95f563543b37aeb67"
@@ -1136,7 +1136,7 @@
       "checksum": "84781c4a639edd105b3236fbf9b4390a"
     },
     "README.md": {
-      "checksum": "c4cdefcc6c7b41641370d49031c5c092"
+      "checksum": "affe9cb579da78bce0210fa44eda714b"
     },
     "renv.lock": {
       "checksum": "2d8adf71b8ed13996bfa356e93476883"
