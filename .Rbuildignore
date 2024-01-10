@@ -11,5 +11,6 @@ $run_dev.*
 ^app\.R$
 ^R/_disable_autoload\.R$
 ^rsconnect$
+^\.rscignore$
 ^\.github$
 ^deploy$
