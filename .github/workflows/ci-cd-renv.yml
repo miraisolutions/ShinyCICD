@@ -48,6 +48,26 @@ jobs:
           # No RStudio Package Manager to respect renv.lock
           use-public-rspm: false
 
+      # Handling the pak package cache for pak-enabled renv is not taken care of (yet)
+      # by r-lib/actions/setup-renv (or renv itself)
+      - name: Configure pak package cache
+        id: pak-cache
+        run: |
+          # Package cache used by pak
+          cat("R_PKG_CACHE_DIR=${{ runner.temp }}/pkgcache\n", file = Sys.getenv("GITHUB_ENV"), append = TRUE)
+          cache_version = 1
+          cat("os-version=", sessionInfo()$running, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+          cat("r-version=", R.Version()$version.string, "\n", file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+          cat("cache-version=", cache_version, file = Sys.getenv("GITHUB_OUTPUT"), sep = "", append = TRUE)
+        shell: Rscript {0}
+
+      - name: Restore pak package cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_PKG_CACHE_DIR }}
+          key: pak-${{ steps.pak-cache.outputs.os-version }}-${{ steps.pak-cache.outputs.r-version }}-${{ steps.pak-cache.outputs.cache-version }}-${{ hashFiles('renv.lock') }}
+          restore-keys: pak-${{ steps.pak-cache.outputs.os-version }}-${{ steps.pak-cache.outputs.r-version }}-${{ steps.pak-cache.outputs.cache-version }}-
+
       - name: Activate renv and restore packages with cache
         uses: r-lib/actions/setup-renv@v2
 
