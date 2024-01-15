@@ -51,10 +51,9 @@ jobs:
         # Package distro used to get the distro for the used ubuntu-latest
         run: |
           Rscript -e "install.packages(c('remotes', 'distro'))"
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(with(distro::distro(), remotes::system_requirements(id, short_version)))')
+          SYSTEM_REQUIREMENTS='with(distro::distro(), remotes::system_requirements(id, short_version))'
+          while read -r cmd; do echo sudo $cmd && eval sudo $cmd
+          done < <(Rscript -e "writeLines($SYSTEM_REQUIREMENTS)")
 
       - name: Activate renv and restore packages with cache
         uses: r-lib/actions/setup-renv@v2
