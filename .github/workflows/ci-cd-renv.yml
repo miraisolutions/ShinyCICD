@@ -48,18 +48,20 @@ jobs:
 
       - name: Install system dependencies
         # This is not taken care of (yet) by r-lib/actions/setup-renv
-        # We rely on pak and explicitly install them for the renv.lock packages
+        # We rely on pkgdepends (from the library embedded in pak) to detect and
+        # install system requirements for the renv.lock packages
         # We could use pak-based installation for renv, which includes system
         # requirements, but would have to handle the pak cache explicitly
         # See https://github.com/r-lib/actions/issues/785
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")
-          install.packages(c("jsonlite", "processx"))
-          (sysreqs_cmds <- pak::pkg_sysreqs(names(jsonlite::read_json("renv.lock")$Packages), dependencies = FALSE))
-          # inspired by pkgdepends:::sysreqs_install
-          lapply(unlist(sysreqs_cmds[c("pre_install", "install_scripts", "post_install")]), function(cmd) {
-            processx::run("sudo", c("sh", "-c", cmd))
-          })
+          install.packages("jsonlite")
+          .libPaths(c(system.file("library", package = "pak"), .libPaths()))
+          pkg_installation_proposal <- pkgdepends::new_pkg_installation_proposal(
+            names(jsonlite::read_json("renv.lock")$Packages), config = list(dependencies = FALSE)
+          )$solve()
+          pkg_installation_proposal$show_solution()
+          pkg_installation_proposal$install_sysreqs()
         shell: Rscript {0}
 
       - name: Activate renv and restore packages with cache
