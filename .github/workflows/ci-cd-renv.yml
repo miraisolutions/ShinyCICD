@@ -46,21 +46,25 @@ jobs:
           # No RStudio Package Manager to respect renv.lock
           use-public-rspm: false
 
+      # System dependencies are not taken care of (yet) by r-lib/actions/setup-renv
+      # We rely on pak and explicitly install them for the renv.lock packages
+      # We could use pak-based installation for renv, which includes system
+      # requirements, but would have to handle the pak cache explicitly
+      # See https://github.com/r-lib/actions/issues/785
+      - name: Setup pak to install system dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: jsonlite, processx
+          dependencies: NA
+          cache-version: 'sysreqs-1' # ensure keys are not shared with the renv cache
       - name: Install system dependencies
-        # This is not taken care of (yet) by r-lib/actions/setup-renv
-        # We need the development version of remotes to support newer Ubuntu and
-        # for querying system requirements for multiple pkgs (r-lib/remotes#665)
-        # We could use pak-based installation for renv, which includes system
-        # requirements, but would have to handle the pak cache explicitly
-        # See https://github.com/r-lib/actions/issues/785
-        # Note: We deactivate renv explicitly (setup-renv below will reactivate)
         run: |
-          Rscript -e "if (Sys.getenv('RENV_PROJECT') != '') renv::deactivate()"
-          Rscript -e "install.packages(c('remotes', 'distro', 'jsonlite'))"
-          Rscript -e "remotes::install_github('r-lib/remotes')"
-          SYSTEM_REQUIREMENTS='with(distro::distro(), remotes::system_requirements(id, short_version, package = names(jsonlite::read_json("renv.lock")$Packages)))'
-          while read -r cmd; do echo sudo $cmd && eval sudo $cmd
-          done < <(Rscript -e "writeLines($SYSTEM_REQUIREMENTS)")
+          (sysreqs_cmds <- pak::pkg_sysreqs(names(jsonlite::read_json("renv.lock")$Packages), dependencies = FALSE))
+          # inspired by pkgdepends:::sysreqs_install
+          lapply(unlist(sysreqs_cmds[c("pre_install", "install_scripts", "post_install")]), function(cmd) {
+            processx::run("sudo", c("sh", "-c", cmd))
+          })
+        shell: Rscript {0}
 
       - name: Activate renv and restore packages with cache
         uses: r-lib/actions/setup-renv@v2
