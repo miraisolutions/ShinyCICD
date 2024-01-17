@@ -48,10 +48,17 @@ jobs:
 
       - name: Install system dependencies
         # This is not taken care of (yet) by r-lib/actions/setup-renv
-        # Package distro used to get the distro for the used ubuntu-latest
+        # We need the development version of remotes to support newer Ubuntu and
+        # for querying system requirements for multiple pkgs (r-lib/remotes#665)
+        # We could use pak-based installation for renv, which includes system
+        # requirements, but would have to handle the pak cache explicitly
+        # See https://github.com/r-lib/actions/issues/785
+        # Note: We deactivate renv explicitly (setup-renv below will reactivate)
         run: |
-          Rscript -e "install.packages(c('remotes', 'distro'))"
-          SYSTEM_REQUIREMENTS='with(distro::distro(), remotes::system_requirements(id, short_version))'
+          Rscript -e "if (Sys.getenv('RENV_PROJECT') != '') renv::deactivate()"
+          Rscript -e "install.packages(c('remotes', 'distro', 'jsonlite'))"
+          Rscript -e "remotes::install_github('r-lib/remotes')"
+          SYSTEM_REQUIREMENTS='with(distro::distro(), remotes::system_requirements(id, short_version, package = names(jsonlite::read_json("renv.lock")$Packages)))'
           while read -r cmd; do echo sudo $cmd && eval sudo $cmd
           done < <(Rscript -e "writeLines($SYSTEM_REQUIREMENTS)")
 
