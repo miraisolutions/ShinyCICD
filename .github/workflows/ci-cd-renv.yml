@@ -46,19 +46,15 @@ jobs:
           # No RStudio Package Manager to respect renv.lock
           use-public-rspm: false
 
-      # System dependencies are not taken care of (yet) by r-lib/actions/setup-renv
-      # We rely on pak and explicitly install them for the renv.lock packages
-      # We could use pak-based installation for renv, which includes system
-      # requirements, but would have to handle the pak cache explicitly
-      # See https://github.com/r-lib/actions/issues/785
-      - name: Setup pak to install system dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages: jsonlite, processx
-          dependencies: NA
-          cache-version: 'sysreqs-1' # ensure keys are not shared with the renv cache
       - name: Install system dependencies
+        # This is not taken care of (yet) by r-lib/actions/setup-renv
+        # We rely on pak and explicitly install them for the renv.lock packages
+        # We could use pak-based installation for renv, which includes system
+        # requirements, but would have to handle the pak cache explicitly
+        # See https://github.com/r-lib/actions/issues/785
         run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")
+          install.packages(c("jsonlite", "processx"))
           (sysreqs_cmds <- pak::pkg_sysreqs(names(jsonlite::read_json("renv.lock")$Packages), dependencies = FALSE))
           # inspired by pkgdepends:::sysreqs_install
           lapply(unlist(sysreqs_cmds[c("pre_install", "install_scripts", "post_install")]), function(cmd) {
