@@ -15,6 +15,11 @@ on:
   schedule:
     - cron:  '0 0 1 * *'
 
+# Avoid concurrent deployments from both workflows by running one at a time
+# (specific for ShinyCICD maintenance)
+concurrency:
+  group: shinyapps-${{ github.ref }}
+
 jobs:
   CI-CD:
     runs-on: ${{ matrix.config.os }}
@@ -76,7 +81,7 @@ jobs:
 
       - name: Deploy to shinyapps.io
         # Continuous deployment only for pushes to the main / master branch
-        if: false && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         env:
           SHINYAPPS_ACCOUNT: ${{ secrets.SHINYAPPS_ACCOUNT }}
           SHINYAPPS_TOKEN: ${{ secrets.SHINYAPPS_TOKEN }}
