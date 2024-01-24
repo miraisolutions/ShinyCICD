@@ -9,6 +9,8 @@ $run_dev.*
 ^LICENSE\.md$
 ^README\.Rmd$
 ^app\.R$
+^R/_disable_autoload\.R$
 ^rsconnect$
+^\.rscignore$
 ^\.github$
 ^deploy$
