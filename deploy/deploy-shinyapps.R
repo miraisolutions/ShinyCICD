@@ -16,5 +16,5 @@ app_files = c(
   "inst/"
 )
 rsconnect::deployApp(
-  appName = "ShinyCICD-test", appFiles = app_files, forceUpdate = TRUE
+  appName = "ShinyCICD", appFiles = app_files, forceUpdate = TRUE
 )
